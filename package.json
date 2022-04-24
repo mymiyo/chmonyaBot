@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@discord-player/downloader": "github:discord-player/downloader",
+    "@discord-player/extractor": "^3.0.2",
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/opus": "^0.5.3",
+    "@discordjs/rest": "^0.4.1",
+    "@discordjs/voice": "^0.9.0",
+    "discord-api-types": "^0.31.2",
+    "discord-player": "^5.2.2",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "ts-node": "^10.7.0",
+    "ym-api": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "typescript": "^4.6.3"
+  }
+}
