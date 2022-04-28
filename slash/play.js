@@ -13,19 +13,19 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("play")
 		.setDescription("Включает трек из Ютуба")
-		.addSubcommand((subcommand) =>
+		.addSubcommand(subcommand =>
 			subcommand
 				.setName("song")
 				.setDescription("Включает трек из Ютуба по ссылке")
 				.addStringOption((option) => option.setName("url").setDescription("Ссылка на песню").setRequired(true))
 		)
-		.addSubcommand((subcommand) =>
+		.addSubcommand(subcommand =>
 			subcommand
 				.setName("playlist")
 				.setDescription("Включает плейлист из Ютуба по ссылке")
 				.addStringOption((option) => option.setName("url").setDescription("Ссылка на песню").setRequired(true))
 		)
-		.addSubcommand((subcommand) =>
+		.addSubcommand(subcommand =>
 			subcommand
 				.setName("search")
 				.setDescription("Ищет песню по названию или ключевым словам")
@@ -33,7 +33,7 @@ module.exports = {
 					option.setName("searchterms").setDescription("Слова для поиска").setRequired(true)
 				)
 		)
-        .addSubcommand((subcommand) =>
+        .addSubcommand(subcommand =>
         subcommand
             .setName("yandex")
             .setDescription("Включает песню из Яндекс.Музыки")
@@ -115,22 +115,7 @@ module.exports = {
                 .setDescription(`**[${song.title}](${song.url})** был добавлен в очередь`)
                 .setThumbnail(song.thumbnail)
                 .setFooter({ text: `Длительность: ${song.duration}`})
-		} else if (interaction.options.getSubcommand() === "yandex") {
-            let url = interaction.options.getString("url")
-            const result = await client.player.search(url, {
-                requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
-            })
-
-            if (result.tracks.length === 0) return interaction.editReply("Я ничего не нашёл :(")
-            
-            const song = result.tracks[0]
-            await queue.addTrack(song)
-            embed
-                .setDescription(`**[${song.title}](${song.url})** был добавлен в очередь`)
-                .setThumbnail(song.thumbnail)
-                .setFooter({ text: `Длительность: ${song.duration}`})
-        }
+		}
         if (!queue.playing) await queue.play()
         await interaction.editReply({
             embeds: [embed]

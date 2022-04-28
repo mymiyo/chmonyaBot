@@ -10,6 +10,7 @@
     "discord-player": "^5.2.2",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
+    "easyvk": "^2.8.2",
     "ts-node": "^10.7.0",
     "ym-api": "^1.2.1"
   },

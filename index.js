@@ -10,6 +10,7 @@ dotenv.config()
 const TOKEN = process.env.TOKEN
 
 const LOAD_SLASH = process.argv[2] == "load"
+const DELETE_SLASH = process.argv[2] == "delete"
 
 const CLIENT_ID = "871620531416338452"
 const GUILD_ID = "524692087765991424"
@@ -20,7 +21,6 @@ const client = new Discord.Client({
         "GUILD_VOICE_STATES"
     ]
 })
-
 
 client.slashcommands = new Discord.Collection()
 client.player = new Player(client, {
@@ -57,8 +57,20 @@ if (LOAD_SLASH) {
             process.exit(1)
         }
     })
-}
-else {
+} else if (DELETE_SLASH) {
+    const rest = new REST().setToken(TOKEN);
+    rest.get(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID)).then((data) => {
+        const promises = [];
+        for (const command of data) {
+            const deleteUrl = `${Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID)}/${command.id}`;
+            promises.push(rest.delete(deleteUrl));
+            console.log(`Deleted command ${command.id} ${command.name}`);
+        }
+        return Promise.all(promises).then(() => {
+            console.log("All commands deleted");
+        });
+    });
+} else {
     client.on("ready", () => {
         console.log(`Logged in as ${client.user.tag}`)
     })
@@ -68,11 +80,20 @@ else {
 
             const slashcmd = client.slashcommands.get(interaction.commandName)
             if (!slashcmd) interaction.reply("Not a valid slash command")
-
+            
             await interaction.deferReply()
             await slashcmd.run({ client, interaction })
         }
         handleCommand()
     })
     client.login(TOKEN)
+    //leave when there are no people in the Voice Channel
+    client.on("voiceStateUpdate", (oldState, newState) => {
+        if (newState.channelID == null) return
+        const channel = client.channels.cache.get(newState.channelID)
+        if (!channel) return
+        if (channel.type != "voice") return
+        if (channel.members.size == 0) channel.leave()
+    }
+    )
 }
