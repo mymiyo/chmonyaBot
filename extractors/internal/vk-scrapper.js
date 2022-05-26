@@ -24,13 +24,13 @@ function parseMilleseconds(time) {
 
 function getThumbnail(artist, title, $) {
   const playlist_div = $('.playlist');
-  return $(playlist_div[0]).find('.cover').attr('style').split(/['']/)[1];
+  if (playlist_div.length > 0) return $(playlist_div[0]).find('.cover').attr('style').split(/['']/)[1];
 }
 
 function getPlaylink(href) {
-  return `https://vrit.me/audio.php?play=${href.split('url=')[1]}`;
+  if(href) return `https://vrit.me/audio.php?play=${href.split('url=')[1]}`;
+  else return null;
 }
-
 
 async function getVkAudios(url) {
   try {

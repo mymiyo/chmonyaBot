@@ -37,7 +37,7 @@ module.exports = {
 		let embed = new MessageEmbed()
 
 		if (interaction.options.getSubcommand() === "s") {
-            const url = 'https://vrit.me/data.php?method=audio.search&count=300&offset=0&q='+interaction.options.getString("query").replace(/\s/g, '%')
+            const url = 'https://vrit.me/data.php?method=audio.search&count=5&offset=0&q='+interaction.options.getString("query").replace(/\s/g, '+')
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
                 searchEngine: QueryType.AUTO
