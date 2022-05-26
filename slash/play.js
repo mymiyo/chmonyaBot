@@ -85,13 +85,13 @@ module.exports = {
             await queue.addTrack(song)
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.avatarURL() })
-                .setTitle(`[${song.title}](${song.uri})`)
-                .setDescription(`**${song.author}**`)
+                .setTitle(`**${song.title}**`)
+                .setURL(song.uri)
+                .setDescription(`${song.author}`)
                 .setThumbnail(song.thumbnail)
                 .setColor(await getThumbnailColor(song.thumbnail))
                 .setFooter({  text: `${song.duration} `})
                 .setTimestamp()
-
 		} else if (interaction.options.getSubcommand() === "playlist") {
             let url = interaction.options.getString("url")
             const result = await client.player.search(url, {
@@ -106,8 +106,9 @@ module.exports = {
             await queue.addTracks(result.tracks)
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.avatarURL() })
-                .setTitle(`[${song.title}](${song.uri})`)
-                .setDescription(`**${song.author}**`)
+                .setTitle(`**${song.title}**`)
+                .setURL(song.uri)
+                .setDescription(`${song.author}`)
                 .setThumbnail(song.thumbnail)
                 .setColor(await getThumbnailColor(song.thumbnail))
                 .setFooter({  text: `${song.duration} `})
@@ -126,8 +127,9 @@ module.exports = {
             await queue.addTrack(song)
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.avatarURL() })
-                .setTitle(`[${song.title}](${song.uri})`)
-                .setDescription(`**${song.author}**`)
+                .setTitle(`**${song.title}**`)
+                .setURL(song.uri)
+                .setDescription(`${song.author}`)
                 .setThumbnail(song.thumbnail)
                 .setColor(await getThumbnailColor(song.thumbnail))
                 .setFooter({  text: `${song.duration} `})
