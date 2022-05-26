@@ -2,9 +2,9 @@ const Discord = require("discord.js")
 const dotenv = require("dotenv")
 const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9")
-const fs = require("fs")
 const { Player } = require("discord-player")
-const yandex = require("./extractors/Yandex");
+const { yandex, vk } = require("./extractors/index");
+const fs = require("fs")
 
 dotenv.config()
 const TOKEN = process.env.TOKEN
@@ -32,6 +32,7 @@ client.player = new Player(client, {
     }
 })
 
+client.player.use("vk", vk);
 client.player.use("yandex", yandex);
 
 let commands = []
@@ -68,8 +69,14 @@ if (LOAD_SLASH) {
         }
         return Promise.all(promises).then(() => {
             console.log("All commands deleted");
+            process.exit(0)
         });
-    });
+    }).catch((err) => {
+        if (err){
+            console.log(err)
+            process.exit(1)
+        }
+    })
 } else {
     client.on("ready", () => {
         console.log(`Logged in as ${client.user.tag}`)
@@ -86,14 +93,6 @@ if (LOAD_SLASH) {
         }
         handleCommand()
     })
+    
     client.login(TOKEN)
-    //leave when there are no people in the Voice Channel
-    client.on("voiceStateUpdate", (oldState, newState) => {
-        if (newState.channelID == null) return
-        const channel = client.channels.cache.get(newState.channelID)
-        if (!channel) return
-        if (channel.type != "voice") return
-        if (channel.members.size == 0) channel.leave()
-    }
-    )
 }
