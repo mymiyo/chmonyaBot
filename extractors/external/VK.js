@@ -1,6 +1,6 @@
-const { getYandexTrack } = require('./internal/yandex-scrapper.js');
+const { getVkAudios } = require('../internal/vk-scrapper');
 
-class Yandex {
+class VK {
     
     constructor() {
         throw new Error(`The ${this.constructor.name} class may not be instantiated!`);
@@ -11,9 +11,9 @@ class Yandex {
      * @param {string} url stream url
      */
     static async getInfo(url) {
-        const data = await getYandexTrack(url).then();
+        
+        const data = await getVkAudios(url).then();
         if (!data) return null;
-
         return {
             playlist: null,
             info: [{
@@ -30,7 +30,7 @@ class Yandex {
     };
 
     static validate(url) {
-        const REGEX = /^https?:\/\/music\.yandex\.\w+\/album\/\d+\/track\/\d+/;
+        const REGEX = /^https?:\/\/vrit.me\/data.php\?method=audio.search&count=\d+\&offset=\d+&q=.*/;
         return REGEX.test(url || "");
     }
 
@@ -39,4 +39,4 @@ class Yandex {
     }
 }
 
-module.exports = Yandex;
+module.exports = VK;

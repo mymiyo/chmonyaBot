@@ -1,6 +1,11 @@
 const { YMApi } = require ("ym-api");
+const { getAverageColor } = require('fast-average-color-node');
+const dotenv = require("dotenv")
 const api = new YMApi();
 
+dotenv.config();
+const LOGIN = process.env.YA_LOGIN;
+const PASS = process.env.YA_PASS;
 
 function parseId(url) {
   const id = url.split("/").pop();
@@ -9,8 +14,7 @@ function parseId(url) {
 
 async function getYandexTrack(url) {
   try {
-    await api.init({ username: "Tifty", password: "HelopGWORS735392" });
-
+    await api.init({ username: LOGIN, password: PASS });
     const song = await api.getTrack(parseId(url));
     const getTrackDownloadInfoResult = await api.getTrackDownloadInfo(song.map(s => s.id));
 
@@ -24,10 +28,11 @@ async function getYandexTrack(url) {
       song.map(async track => ({
         title: track.title,
         duration: track.durationMs,
-        thumbnail: "https://" + track.coverUri.slice(0, -2) + "1000x1000",
+        thumbnail: `https://${track.coverUri.slice(0, -2)}1000x1000`,
         streamURL: streamURL,
         author: `${track.artists.map(artist => artist.name).join(", ")}`,
-        url: url
+        url: url,
+        thumbnailColor: await getAverageColor(`https://${track.coverUri.slice(0, -2)}1000x1000`).then(color => color.hex)
       }))
       );
     return trackInfo;
