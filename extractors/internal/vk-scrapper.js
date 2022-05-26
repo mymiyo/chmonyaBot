@@ -11,15 +11,20 @@ function parseMilleseconds(time) {
   return parseInt(timeParts[0]) * 60 * 1000 + parseInt(timeParts[1]) * 1000;
 }
 
+// function getThumbnail(artist, title, $) {
+//   const playlist_div = $('.playlist');
+//   for(let i = 0; i < playlist_div.length; i++){
+//     if($(playlist_div[i]).find('.title').text() === title) {
+//       if($(playlist_div[i]).find('.author').text() === artist) {
+//         return $(playlist_div[i]).find('.cover').attr('style').split(/['']/)[1];
+//       }
+//     }
+//   }
+// }
+
 function getThumbnail(artist, title, $) {
   const playlist_div = $('.playlist');
-  for(let i = 0; i < playlist_div.length; i++){
-    if($(playlist_div[i]).find('.title').text() === title) {
-      if($(playlist_div[i]).find('.author').text() === artist) {
-        return $(playlist_div[i]).find('.cover').attr('style').split(/['']/)[1];
-      }
-    }
-  }
+  return $(playlist_div[0]).find('.cover').attr('style').split(/['']/)[1];
 }
 
 function getPlaylink(href) {
