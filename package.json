@@ -14,6 +14,7 @@
     "fast-average-color-node": "^2.2.0",
     "node-fetch": "^3.2.4",
     "ts-node": "^10.7.0",
+    "undici": "^5.3.0",
     "ym-api": "^1.2.1"
   },
   "devDependencies": {

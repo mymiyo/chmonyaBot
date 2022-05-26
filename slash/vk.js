@@ -5,7 +5,7 @@ const { getAverageColor } = require('fast-average-color-node');
 
 function getThumbnailColor(thumbnail) {
     if(thumbnail === 'https://upload.wikimedia.org/wikipedia/commons/2/2a/ITunes_12.2_logo.png') return '0x' + Math.floor(Math.random() * 16777215).toString(16);
-    else getAverageColor(thumbnail).then(color => color.hex);
+    else return getAverageColor(thumbnail).then(color => color.hex);
 }
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
             leaveOnEnd: true,
             leaveOnStop: true,
             initialVolume: 80,
-            leaveOnEmptyCooldown: 1000,
+            leaveOnEmptyCooldown: 60000,
             bufferingTimeout: 200,
             leaveOnEmpty: true,
             spotifyBridge: false,
@@ -48,6 +48,7 @@ module.exports = {
             
             const song = result.tracks[0]
             await queue.addTrack(song)
+            console.log(song.thumbnail);
             embed
                 .setAuthor({ name: interaction.user.tag, iconURL: interaction.user.avatarURL() })
                 .setTitle(`**${song.title}**`)
